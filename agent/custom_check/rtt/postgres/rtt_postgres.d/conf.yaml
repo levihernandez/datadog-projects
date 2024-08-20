@@ -1,0 +1,14 @@
+init_config:
+
+
+instances:
+  - host: "<remote host>"               # The hostname or IP address of the PostgreSQL server
+    port: 5432                          # The port number on which PostgreSQL is running
+    database: "mydatabase"              # The name of the PostgreSQL database to connect to
+    username: "myusername"              # The username for connecting to the PostgreSQL database
+    password: "mypassword"              # The password for the specified user
+    
+    # Query to measure RTT
+    query: |
+      SELECT 1;
+    
