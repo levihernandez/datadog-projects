@@ -17,3 +17,12 @@ $DATADOG_PATH/conf.d/rtt_postgres.d/conf.yaml
 datadog-agent check rtt_postgres
 ```
 
+* Use the following query to obtain anomalies in the queries, which can also be used in a monitor
+
+```sql
+anomalies(avg:postgres.rtt.query{*}, 'basic', 2)
+```
+
+results:
+
+![](postgres.rtt.query.png)
