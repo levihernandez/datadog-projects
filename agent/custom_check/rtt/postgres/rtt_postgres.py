@@ -8,7 +8,7 @@ class MeasureRTT(AgentCheck):
 
             # Connect to your PostgreSQL database
             conn = psycopg2.connect(
-                dbname= instance['database'],
+                dbname="default",
                 host = instance['host'],
                 port = instance['port'],  # Default PostgreSQL port
                 user = instance['username'],
@@ -35,9 +35,12 @@ class MeasureRTT(AgentCheck):
             
             # Calculate round-trip time (RTT)
             rtt = end_time - start_time
+
+            # Convert RTT to milliseconds
+            rtt_milliseconds = rtt_seconds * 1000
             
             # Report the RTT as a custom metric to Datadog
-            self.gauge(metric, rtt)
+            self.gauge(metric, rtt_milliseconds)
         
         except Exception as e:
             self.log.error(f"Error executing query or connecting to PostgreSQL: {e}")
