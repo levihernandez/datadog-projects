@@ -10,5 +10,5 @@ instances:
     
     # Query to measure RTT
     query: |
-      SELECT 1;
+      SELECT version();
     
