@@ -4,6 +4,7 @@ from checks import AgentCheck
 
 class MeasureRTT(AgentCheck):
     def check(self, instance):
+        metric = "postgres.rtt.query"
         try:
 
             # Connect to your PostgreSQL database
@@ -17,9 +18,7 @@ class MeasureRTT(AgentCheck):
         
         
             query = instance['query']
-
-            metric = "postgres.rtt.query"
-            
+           
             # Start timer
             start_time = time.time()
 
