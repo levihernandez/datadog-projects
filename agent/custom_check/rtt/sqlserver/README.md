@@ -21,11 +21,11 @@ sudo datadog-agent check sqlserver_rtt
 ```
 
 * Query is available in metrics explorer:
-![](sqlserver_duration_ms.png)
+![](img/sqlserver_duration_ms.png)
 
 * Register the metric in Metrics Summary to assign the metrics type as milliseconds
-![](sqlserver_duration_ms1.png)
-![](sqlserver_duration_ms2.png)
+![](img/sqlserver_duration_ms1.png)
+![](img/sqlserver_duration_ms2.png)
 
 
 * Use the following query to obtain anomalies in the queries, which can also be used in a monitor
@@ -36,4 +36,4 @@ anomalies(avg:sqlserver.rtt.query.duration_ms{*}, 'basic', 2)
 
 results:
 
-![](sqlserver_anomaly.png)
+![](img/sqlserver_anomaly.png)
