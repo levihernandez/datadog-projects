@@ -1,0 +1,40 @@
+init_config:
+  global_custom_metrics:
+    - name: sqlserver.rtt.query
+      query: SELECT 1
+      tags:
+        - 'query:custom'
+instances:
+  # Windows UI: 'Win + R', search odbcad32, drivers tab provides the version
+  # PowerShell command: Get-OdbcDriver
+  # collection interval may vary depending on queue
+
+  # Add DB instances to monitor, see the two examples below:
+  - host: 192.168.86.66
+    port: 1433  
+    database: master
+    username: datadog
+    password: <password>
+    driver: '{ODBC Driver 17 for SQL Server}'
+    min_collection_interval: 15
+    tags :
+      - 'dbhost:my.sqlserver.net'
+      - 'server:one'
+      - 'region:east'
+      - 'bill_to:store-app'
+      - 'bill_to:payments-app'
+
+  - host: 192.168.86.66
+    port: 1433  
+    database: master
+    username: datadog
+    password: <password>
+    driver: '{ODBC Driver 17 for SQL Server}'
+    min_collection_interval: 15
+    tags :
+      - 'dbhost:your.sqlserver.net'
+      - 'server:two'
+      - 'region:west'
+      - 'bill_to:shipping-app'
+
+
