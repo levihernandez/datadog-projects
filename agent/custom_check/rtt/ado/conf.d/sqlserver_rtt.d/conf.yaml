@@ -1,0 +1,58 @@
+init_config:
+  global_custom_metrics:
+    - name: sqlserver.rtt.query
+      query: SELECT 1
+      tags:
+        - 'query:custom'
+instances:
+  - host: '192.168.0.9'
+    username: datadog
+    password: <datadogpassword>
+    port: 1433
+    database: master
+    # SQLOLEDB and SQLNCLI, are considered deprecated by Microsoft and should no longer be used
+    # If adodbapi, enable the lines below:
+    connector: adodbapi
+    adoprovider: MSOLEDBSQL
+    # When using ENC[encoded-vault-pass]
+    # vault_url: 'https://vault.example.com'
+    # vault_token: 'your-vault-token'
+    connection_timeout: 30
+    # else if odbc, enable the lines below:
+    # connector: odbc
+    # driver: '{ODBC Driver 17 for SQL Server}'
+    tags :
+      - 'env:dev'
+      - 'service:payments'
+      - 'dbhost:my.sqlserver.net'
+      - 'server:one'
+      - 'region:east'
+      - 'bill_to:store-app'
+      - 'bill_to:payments-app'
+
+  - host: '192.168.0.7'
+    port: 1433
+    database: master
+    username: datadog
+    password: <datadogpassword>
+    # SQLOLEDB and SQLNCLI, are considered deprecated by Microsoft and should no longer be used
+    # When using ENC[encoded-vault-pass]
+    # vault_url: 'https://vault.example.com'
+    # vault_token: 'your-vault-token'
+    # If adodbapi, enable the lines below:
+    # connector: adodbapi
+    # adoprovider: MSOLEDBSQL19
+    # else if odbc, enable the lines below:
+    connector: odbc
+    connection_timeout: 30
+    driver: '{ODBC Driver 17 for SQL Server}'
+    tags :
+      - 'env:sandbox'
+      - 'service:payments'
+      - 'dbhost:your.sqlserver.net'
+      - 'server:two'
+      - 'region:west'
+      - 'bill_to:finance-app'
+      - 'bill_to:checkout-app'
+
+
