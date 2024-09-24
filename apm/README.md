@@ -19,7 +19,7 @@ There are commented areas if not using the (as of September 2024) Beta APM Autom
 
 With APM Instrumentation, I activated it at the Datadog agent to trace all apps:
 
-![](apm-auto-instrumentation.png)
+![](img/apm-auto-instrumentation.png)
 
 
 * Create the database in Postgres or CockroachDB (must have the local [cockroach binary](https://www.cockroachlabs.com/docs/releases/#production-releases))
