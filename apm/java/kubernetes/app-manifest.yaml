@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-api
+  labels:
+    app: payment-api
+    # Datadog Configs APM Tracing
+    # tags.datadoghq.com/env: "sandbox-demo"
+    # tags.datadoghq.com/service: "accounts-api"
+    # tags.datadoghq.com/version: "0.0.1"
+spec:
+  # Enable the global and features to activate Single Step Instrumentation (Beta as of September 2040)
+  # From the app perspective if Auto Instrumentation was not activated at the agent level
+  # global:
+  #   tags:
+  #     - "env:sandbox-demo"
+  # features:
+  #   apm:
+  #     instrumentation:
+  #       enabled: true
+  #       enabledNamespaces:
+  #         - "accounts-app"
+  #       libVersions:
+  #         java: "1"
+  #         python: "2"
+  #         js: "5"
+  #         dotnet: "3"
+  #         ruby: "2"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-api
+  template:
+    metadata:
+      labels:
+        app: payment-api
+        # Datadog Configs APM Tracing
+        #   tags.datadoghq.com/env: "sandbox-demo"
+        #   tags.datadoghq.com/service: "accounts-api"
+        #   tags.datadoghq.com/version: "0.0.1"
+        #   admission.datadoghq.com/enabled: "true"
+        # annotations:
+        #   admission.datadoghq.com/python-lib.version: "v2.12.2"
+    spec:
+      containers:
+        - name: payment-api
+          image: registry.repo.home/levihernandez/accounts-java:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+            # Datadog Configs APM Tracing, logs, security
+            # - name: DD_LOGS_INJECTION
+            #   value: "true"
+            # - name: DD_IAST_ENABLED
+            #   value: "true"
+            # - name: DD_APPSEC_SCA_ENABLED
+            #   value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-api
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: payment-api

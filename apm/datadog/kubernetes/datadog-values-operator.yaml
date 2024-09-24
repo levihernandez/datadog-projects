@@ -1,0 +1,62 @@
+apiVersion: "datadoghq.com/v2alpha1"
+kind: "DatadogAgent"
+metadata:
+  name: "datadog"
+spec:
+  global:
+    clusterName: "rancher-cluster"
+#    kubelet:
+#      tlsVerify: false
+    site: "datadoghq.com"
+    tags:
+      - "env:sandbox-demo"
+      - "project:crug-demo"
+    credentials:
+      apiSecret:
+        secretName: "datadog-secret"
+        keyName: "api-key"
+  features:
+    apm:
+      # Currently in beta as of September, 2024
+      # Enable for Automatic Instrumentation of Apps in the cluster
+      instrumentation:  
+        enabled: true
+        libVersions:
+          java: "1"
+          dotnet: "3"
+          python: "2"
+          js: "5"
+          ruby: "2"
+    logCollection:
+      enabled: true
+      containerCollectAll: true
+#    asm:
+#      threats:
+#        enabled: true
+#      sca:
+#        enabled: true
+#      iast:
+#        enabled: true
+    usm:
+      enabled: true
+    npm:
+      enabled: true
+    remoteConfiguration:
+      enabled: true
+    admissionController:
+      enabled: true
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    clusterChecks:
+      enabled: true
+#      portEnabled: true
+#      port: 8126
+#    otlp:
+#      receiver:
+#        protocols:
+#          grpc: # datadog.otlp.receiver.protocols.grpc - OTLP/gRPC configuration
+#            enabled: true # datadog.otlp.receiver.protocols.grpc.enabled -- Enable the OTLP/gRPC endpoint
+#            endpoint: "0.0.0.0:4317" # datadog.otlp.receiver.protocols.grpc.endpoint -- OTLP/gRPC endpoint
+#            useHostPort: true # datadog.otlp.receiver.protocols.grpc.useHostPort -- Enable the Host Port for the OTLP/gRPC endpoint
