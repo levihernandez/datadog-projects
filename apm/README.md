@@ -17,7 +17,7 @@ There are commented areas if not using the (as of September 2024) Beta APM Autom
    * This is the approach I have taken for the current approach
 
 
-With APM Instrumentation, I activated it at the Datadog agent to trace all apps:
+With APM Instrumentation, I activated it at the Datadog agent operator config to trace the Java app:
 
 ![](img/apm-auto-instrumentation.png)
 
