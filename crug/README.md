@@ -1,6 +1,6 @@
 # CockroachDB User Group (CRUG) & Datadog Monitoring
 
-## 1) Database Deployment: CockroachDB & Datadog with ArgoCD
+## Database Deployment: CockroachDB & Datadog with ArgoCD
 
 * CRDB K8s cluster:
   * Create namespaces: cockroachdb, datadog, argocd
@@ -56,15 +56,15 @@
   #### Deploy the Datadog Agent with ArgoCD
 
   * Create Datadog application in the ArgoCD UI
-   * Application Name: `datadog-agent`
-   * Project Name: `default`
-   * SYNC POLICY: `Automatic`
-   * SOURCE > Repository URL: `https://github.com/levihernandez/datadog-projects.git`
-   * Revision: `HEAD`
-   * Path: `crug/datadog/k8s/crdb/operator/`
-   * DESTINATION > Cluster URL: `https://kubernetes.default.svc`
-   * Namespace: `datadog`
-   * Click CREATE button to deploy Datadog in your cluster
+   * **Application Name:** `datadog-agent`
+   * **Project Name:** `default`
+   * **SYNC POLICY:** `Automatic`
+   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
+   * **Revision:** `HEAD`
+   * **Path:** `crug/datadog/k8s/crdb/operator/`
+   * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
+   * **Namespace:** `datadog`
+   * Click **CREATE** button to deploy Datadog in your cluster
 
 
   ### Install CockroachDB
@@ -73,15 +73,15 @@
   
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
-   * Application Name: `cockroachdb-cluster`
-   * Project Name: `default`
-   * SYNC POLICY: `Automatic`
-   * SOURCE > Repository URL: `https://github.com/levihernandez/datadog-projects.git`
-   * Revision: `HEAD`
-   * Path: `crug/cockroachdb/k8s`
-   * DESTINATION > Cluster URL: `https://kubernetes.default.svc`
-   * Namespace: `cockroachdb`
-   * Click CREATE button to deploy CockroachDB in your cluster
+   * **Application Name:** `cockroachdb-cluster`
+   * **Project Name:** `default`
+   * **SYNC POLICY:** `Automatic`
+   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
+   * **Revision:** `HEAD`
+   * **Path:** `crug/cockroachdb/k8s`
+   * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
+   * **Namespace:** `cockroachdb`
+   * Click **CREATE** button to deploy CockroachDB in your cluster
 
 
 
