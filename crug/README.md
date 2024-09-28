@@ -34,22 +34,38 @@ For the current example, there are two separate K8s clusters.
   * Live Processes - Live preview of processes running inside the containers
   * USM - Universal Service Monitor, to preview the number of services (not traced) in the Kubernetes clusters (such as ArgoCD, Istio, etc)
 
-  #### Setup in ArgoCD
-  * Run the Helm operator for Datadog:
+  #### Setup Datadog in K8s & ArgoCD
+  * Download the `datadog-secret.yaml` and add the `base64` API key in the Kubernetes cluster
   ```bash
+  # Get the Datadog Helm repo
   helm repo add datadog https://helm.datadoghq.com
+  
+  # Install the Datadog Operator
   helm install datadog-operator datadog/datadog-operator
+  
+  # Download Datadog Secrets
+  curl -L -o datadog-secret.yaml https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/datadog-secret.yaml
+
+  # Encode the API key
+  echo "apikey" | base64
+
+  # replace the   api-key: <base 64 encoded api key> with the encoded key
+  # apply the secret key for Datadog
+  kubectl apply -f datadog-secret.yaml -n datadog
   ```
+  
+  #### Setup in ArgoCD
+
   * Create Datadog application in the ArgoCD UI
-   * Application Name: `cockroachdb-cluster`
+   * Application Name: `datadog-agent`
    * Project Name: `default`
    * SYNC POLICY: `Automatic`
    * SOURCE > Repository URL: `https://github.com/levihernandez/datadog-projects.git`
    * Revision: `HEAD`
-   * Path: `crug/cockroachdb/k8s`
+   * Path: `crug/datadog/k8s/crdb/operator/`
    * DESTINATION > Cluster URL: `https://kubernetes.default.svc`
-   * Namespace: `cockroachdb`
-   * Click CREATE button to deploy CockroachDB in your cluster
+   * Namespace: `datadog`
+   * Click CREATE button to deploy Datadog in your cluster
 
 
   ### Install CockroachDB
