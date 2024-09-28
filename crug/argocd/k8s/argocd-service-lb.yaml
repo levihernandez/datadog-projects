@@ -1,0 +1,15 @@
+# argocd-service-loadbalancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd  # Replace with your namespace if different
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 443
+      targetPort: 8081  # Internal port where Argo CD is listening
+      protocol: TCP
+  selector:
+    app: argocd-server  # Adjust this label selector to match your Argo CD deployment
+
