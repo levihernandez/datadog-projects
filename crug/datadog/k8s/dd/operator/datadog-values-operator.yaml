@@ -1,10 +1,11 @@
-apiVersion: "datadoghq.com/v2alpha"
+apiVersion: "datadoghq.com/v2alpha1"
 kind: "DatadogAgent"
 metadata:
   name: "datadog"
 spec:
   global:
     clusterName: "movr-cluster"
+    site: "datadoghq.com"
     tags:
       - "env:crug-demo"
       - "user:jlevi"
