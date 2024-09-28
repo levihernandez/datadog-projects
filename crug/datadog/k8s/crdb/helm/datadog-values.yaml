@@ -1,0 +1,29 @@
+registry: "gcr.io/datadoghq"
+datadog:
+  apiKeyExistingSecret: "datadog-secret"
+  site: "datadoghq.com"
+  tags:
+    - "env:crug-demo"
+    - "user:jlevi"
+    - "user:jhatcher"
+    - "presentation:crug"
+    - "version:0.0.1"
+    - "db_release:v24.2.0"
+    - "db_product:cockroachdb"
+  logs:
+    enabled: true
+    containerCollectAll: true
+  usm:
+    enabled: true
+  npm:
+    enabled: true
+  remoteConfiguration:
+    enabled: true
+  admissionController:
+    enabled: true
+  liveProcessCollection:
+    enabled: true
+  liveContainerCollection:
+    enabled: true
+  clusterChecks:
+    enabled: true
