@@ -5,7 +5,7 @@
 * CRDB K8s cluster:
   * Create namespaces: cockroachdb, datadog, argocd
   ```bash
-  kubectl apply -f https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/create-namespaces.yaml
+  kubectl apply -f https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/create-db-namespaces.yaml
   ```
   ### Install ArgoCD
   ```bash
@@ -26,7 +26,6 @@
 
   We will also enable the following tools within the Datadog Agent to gain insights into the CockroachDB cluster:
   * NPM - Network Performance Monitor, to understand the traffic between CRDB nodes & correlate to the application traces
-  * APM - Application Performance Monitor, to generate traces/spans with correlation to other tools
   * Metrics - Default collection of metrics from the host/cluster
   * Logs - To generate dashboards out of the SQL payload
   * Containers - Collect metrics from containers
@@ -87,5 +86,79 @@
 
 ## Application Deployment: MovR app & Datadog with ArgoCD
 
+* MovR App K8s cluster:
+  * Create namespaces: movr, datadog, argocd
+  ```bash
+  kubectl apply -f https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/create-app-namespaces.yaml
+  ```
+  
+  ### Install ArgoCD
+
+  ```bash
+  # Install ArgoCD via Manifest
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  # Change the ClusterIP to a LoadBalancer type so ArgoCD can be available on port 443
+  kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+  # IP info for the public port can be obtain with: 
+  kubectl get svc -n argocd
+  
+  # Once installed, get the ArgoCD password with:
+  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+  ```
+  
+
+  #### Deploy the Datadog Agent with ArgoCD
+  
+  We will also enable the following tools within the Datadog Agent to gain insights into the CockroachDB cluster:
+    
+  * NPM - Network Performance Monitor, to understand the traffic between CRDB nodes & correlate to the application traces
+  * APM - Application Performance Monitor, to generate auto discovery of traces/spans with correlation to other tools
+  * Metrics - Default collection of metrics from the host/cluster
+  * Logs - To generate dashboards out of the SQL payload
+  * Containers - Collect metrics from containers
+  * Live Processes - Live preview of processes running inside the containers
+  * USM - Universal Service Monitor, to preview the number of services (not traced) in the Kubernetes clusters (such as ArgoCD, Istio, etc)
 
 
+  * Create Datadog application in the ArgoCD UI
+   * **Application Name:** `datadog-agent`
+   * **Project Name:** `default`
+   * **SYNC POLICY:** `Automatic`
+   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
+   * **Revision:** `HEAD`
+   * **Path:** `crug/datadog/k8s/dd/operator/`
+   * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
+   * **Namespace:** `datadog`
+   * Click **CREATE** button to deploy Datadog in your cluster
+
+  #### Deploy the MovR App with ArgoCD
+  
+  * Update the secrets yaml to update the database credentials & url 
+  * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
+  * In ArgoCD UI go to: Applications > New App 
+   * **Application Name:** `movr-cluster`
+   * **Project Name:** `default`
+   * **SYNC POLICY:** `Automatic`
+   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
+   * **Revision:** `HEAD`
+   * **Path:** `crug/movr/k8s`
+   * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
+   * **Namespace:** `movr`
+   * Click **CREATE** button to deploy MovR Flask app in your cluster
+   * 
+  #### Deploy the Payments App with ArgoCD
+
+  * Update the secrets yaml to update the database credentials & url 
+  * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
+  * In ArgoCD UI go to: Applications > New App 
+   * **Application Name:** `movr-cluster`
+   * **Project Name:** `default`
+   * **SYNC POLICY:** `Automatic`
+   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
+   * **Revision:** `HEAD`
+   * **Path:** `crug/payments/k8s`
+   * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
+   * **Namespace:** `movr`
+   * Click **CREATE** button to deploy Payments Java app in your cluster
