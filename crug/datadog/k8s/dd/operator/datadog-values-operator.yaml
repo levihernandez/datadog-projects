@@ -5,6 +5,7 @@ metadata:
 spec:
   global:
     clusterName: movr-cluster
+    registry: gcr.io/datadoghq
     site: datadoghq.com
     tags:
       - "env:crug-demo"
