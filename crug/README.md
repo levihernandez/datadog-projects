@@ -58,11 +58,14 @@
    * **Application Name:** `datadog-agent`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
-   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
-   * **Revision:** `HEAD`
-   * **Path:** `crug/datadog/k8s/crdb/operator/`
+   * **SOURCE > Repository URL:** `https://helm.datadoghq.com`
+   * **Chart:** `datadog`
+   * Choose the dropdown and set the version: **3.73.0**
    * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
    * **Namespace:** `datadog`
+   * **Helm > VALUE FILES:** `values.yaml`
+   * copy the contents of this file https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/crdb/helm/datadog-values.yaml
+   * paste the contens in **VALUES**
    * Click **CREATE** button to deploy Datadog in your cluster
 
 
@@ -144,15 +147,18 @@
 
 
 
-  * Create Datadog application in the ArgoCD UI
+  * In ArgoCD UI, create a Datadog application, go to: **Applications > New App** 
    * **Application Name:** `datadog-agent`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
-   * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
-   * **Revision:** `HEAD`
-   * **Path:** `crug/datadog/k8s/dd/operator/`
+   * **SOURCE > Repository URL:** `https://helm.datadoghq.com`
+   * **Chart:** `datadog`
+   * Choose the dropdown and set the version: **3.73.0**
    * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
    * **Namespace:** `datadog`
+   * **Helm > VALUE FILES:** `values.yaml`
+   * copy the contents of this file https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/apps/helm/datadog-values.yaml
+   * paste the contens in **VALUES**
    * Click **CREATE** button to deploy Datadog in your cluster
 
   #### Deploy the MovR App with ArgoCD
