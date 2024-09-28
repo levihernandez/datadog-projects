@@ -4,7 +4,7 @@ metadata:
   name: datadog
 spec:
   global:
-    clusterName: movr-cluster
+    clusterName: applications-cluster
     registry: gcr.io/datadoghq
     site: datadoghq.com
     tags:
