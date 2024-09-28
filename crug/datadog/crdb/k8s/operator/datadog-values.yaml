@@ -1,0 +1,37 @@
+apiVersion: "datadoghq.com/v2alpha1"
+kind: "DatadogAgent"
+metadata:
+  name: "datadog"
+spec:
+  global:
+    clusterName: "cockroachdb-cluster"
+    tags:
+      - "env:crug-demo"
+      - "env:crug-demo"
+      - "user:jlevi"
+      - "user:jhatcer"
+      - "presentation:crug"
+      - "version:0.0.1"
+      - "release:v24.2.2"
+    credentials:
+      apiSecret:
+        secretName: "datadog-secret"
+        keyName: "api-key"
+  features:
+    logCollection:
+      enabled: true
+      containerCollectAll: true
+    usm:
+      enabled: true
+    npm:
+      enabled: true
+    remoteConfiguration:
+      enabled: true
+    admissionController:
+      enabled: true
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    clusterChecks:
+      enabled: true
