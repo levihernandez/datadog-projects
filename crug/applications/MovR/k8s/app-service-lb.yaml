@@ -8,5 +8,5 @@ spec:
     app: movr-app
   ports:
     - protocol: TCP
-      port: 8087    # External port
+      port: 8085    # External port
       targetPort: 5000  # Internal port in the container
