@@ -1,7 +1,6 @@
 # CockroachDB User Group (CRUG) & Datadog Monitoring
 
-## CockroachDB & Datadog with ArgoCD Deployment
-For the current example, there are two separate K8s clusters.
+## 1) Database Deployment: CockroachDB & Datadog with ArgoCD
 
 * CRDB K8s cluster:
   * Create namespaces: cockroachdb, datadog, argocd
@@ -54,7 +53,7 @@ For the current example, there are two separate K8s clusters.
   kubectl apply -f datadog-secret.yaml -n datadog
   ```
   
-  #### Setup in ArgoCD
+  #### Deploy the Datadog Agent with ArgoCD
 
   * Create Datadog application in the ArgoCD UI
    * Application Name: `datadog-agent`
@@ -69,6 +68,9 @@ For the current example, there are two separate K8s clusters.
 
 
   ### Install CockroachDB
+
+  #### Deploy CockroachDB with ArgoCD
+  
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
    * Application Name: `cockroachdb-cluster`
