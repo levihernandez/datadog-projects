@@ -23,6 +23,34 @@ For the current example, there are two separate K8s clusters.
   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
   ```
   ### Install the Datadog Agent
+  While we can directly install the Datadog Agent via `kubectl`, for the purpose of visualization, we will install it with ArgoCD.
+
+  We will also enable the following tools within the Datadog Agent to gain insights into the CockroachDB cluster:
+  * NPM - Network Performance Monitor, to understand the traffic between CRDB nodes & correlate to the application traces
+  * APM - Application Performance Monitor, to generate traces/spans with correlation to other tools
+  * Metrics - Default collection of metrics from the host/cluster
+  * Logs - To generate dashboards out of the SQL payload
+  * Containers - Collect metrics from containers
+  * Live Processes - Live preview of processes running inside the containers
+  * USM - Universal Service Monitor, to preview the number of services (not traced) in the Kubernetes clusters (such as ArgoCD, Istio, etc)
+
+  #### Setup in ArgoCD
+  * Run the Helm operator for Datadog:
+  ```bash
+  helm repo add datadog https://helm.datadoghq.com
+  helm install datadog-operator datadog/datadog-operator
+  ```
+  * Create Datadog application in the ArgoCD UI
+   * Application Name: `cockroachdb-cluster`
+   * Project Name: `default`
+   * SYNC POLICY: `Automatic`
+   * SOURCE > Repository URL: `https://github.com/levihernandez/datadog-projects.git`
+   * Revision: `HEAD`
+   * Path: `crug/cockroachdb/k8s`
+   * DESTINATION > Cluster URL: `https://kubernetes.default.svc`
+   * Namespace: `cockroachdb`
+   * Click CREATE button to deploy CockroachDB in your cluster
+
 
   ### Install CockroachDB
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
