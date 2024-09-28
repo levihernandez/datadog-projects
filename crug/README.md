@@ -109,6 +109,27 @@
   ```
   
 
+  #### Setup Datadog in K8s & ArgoCD
+  * Download the `datadog-secret.yaml` and add the `base64` API key in the Kubernetes cluster
+  ```bash
+  # Get the Datadog Helm repo
+  helm repo add datadog https://helm.datadoghq.com
+  
+  # Install the Datadog Operator
+  helm install datadog-operator datadog/datadog-operator
+  
+  # Download Datadog Secrets
+  curl -L -o datadog-secret.yaml https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/datadog-secret.yaml
+
+  # Encode the API key
+  echo "apikey" | base64
+
+  # replace the   api-key: <base 64 encoded api key> with the encoded key
+  # apply the secret key for Datadog
+  kubectl apply -f datadog-secret.yaml -n datadog
+  ```
+
+
   #### Deploy the Datadog Agent with ArgoCD
   
   We will also enable the following tools within the Datadog Agent to gain insights into the CockroachDB cluster:
@@ -120,6 +141,7 @@
   * Containers - Collect metrics from containers
   * Live Processes - Live preview of processes running inside the containers
   * USM - Universal Service Monitor, to preview the number of services (not traced) in the Kubernetes clusters (such as ArgoCD, Istio, etc)
+
 
 
   * Create Datadog application in the ArgoCD UI
