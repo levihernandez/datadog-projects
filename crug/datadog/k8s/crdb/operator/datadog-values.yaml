@@ -7,7 +7,6 @@ spec:
     clusterName: "cockroachdb-cluster"
     tags:
       - "env:crug-demo"
-      - "env:crug-demo"
       - "user:jlevi"
       - "user:jhatcer"
       - "presentation:crug"
