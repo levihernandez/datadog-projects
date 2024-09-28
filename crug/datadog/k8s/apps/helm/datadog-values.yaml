@@ -1,0 +1,44 @@
+registry: "gcr.io/datadoghq"
+datadog:
+  apiKeyExistingSecret: "datadog-secret"
+  site: "datadoghq.com"
+  tags:
+    - "env:crug-demo"
+    - "user:jlevi"
+    - "user:jhatcher"
+    - "presentation:crug"
+    - "version:0.0.1"
+    - "release:v7.57.2"
+  apm:
+    instrumentation:
+      enabled: true
+      libVersions:
+        java: "1"
+        dotnet: "3"
+        python: "2"
+        js: "5"
+        ruby: "2"
+  logs:
+    enabled: true
+    containerCollectAll: true
+  asm:
+    threats:
+      enabled: true
+    sca:
+      enabled: true
+    iast:
+      enabled: true
+    usm:
+      enabled: true
+    npm:
+      enabled: true
+    remoteConfiguration:
+      enabled: true
+    admissionController:
+      enabled: true
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    clusterChecks:
+      enabled: true
