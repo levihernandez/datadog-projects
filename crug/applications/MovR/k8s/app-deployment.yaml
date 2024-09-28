@@ -17,7 +17,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: movr-app
-        image: cockroachdb/movr:latest
+        image: levihernandez/movr-sr-amd64:v24.2.0 # or test with cockroachdb/movr:latest
         command: ["python", "server.py", "run", "--max-records", "50"]
         envFrom:
         - configMapRef:
