@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movr-app
+  labels:
+    app: movr-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: movr-app
+  template:
+    metadata:
+      labels:
+        app: movr-app
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: movr-app
+        image: registry.repo.home/levihernandez/movr-dd-amd:latest
+        command: ["python", "server.py", "run", "--max-records", "50"]
+        envFrom:
+        - configMapRef:
+            name: movr-app-config
+        - secretRef:
+            name: movr-app-secrets
+        ports:
+        - containerPort: 5000
