@@ -9,10 +9,10 @@ spec:
     tags:
       - "env:crug-demo"
       - "user:jlevi"
-      - "user:jhatcer"
+      - "user:jhatcher"
       - "presentation:crug"
       - "version:0.0.1"
-      - "release:v24.2.2"
+      - "release:v7.57.2"
     credentials:
       apiSecret:
         secretName: "datadog-secret"
