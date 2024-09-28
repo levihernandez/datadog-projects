@@ -8,7 +8,8 @@ datadog:
     - "user:jhatcher"
     - "presentation:crug"
     - "version:0.0.1"
-    - "release:v7.57.2"
+    - "db_release:v24.2.0"
+    - "db_product:cockroachdb"
   apm:
     instrumentation:
       enabled: true
