@@ -1,4 +1,4 @@
-apiVersion: "datadoghq.com/v1"
+apiVersion: "datadoghq.com/v2alpha"
 kind: "DatadogAgent"
 metadata:
   name: "datadog"
