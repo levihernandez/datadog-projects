@@ -54,7 +54,7 @@
   
   #### Deploy the Datadog Agent with ArgoCD
 
-  * Create Datadog application in the ArgoCD UI
+  * In ArgoCD UI go to: **Applications > New App** 
    * **Application Name:** `datadog-agent`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
@@ -71,7 +71,7 @@
   #### Deploy CockroachDB with ArgoCD
   
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
-  * In ArgoCD UI go to: Applications > New App 
+  * In ArgoCD UI go to: **Applications > New App** 
    * **Application Name:** `cockroachdb-cluster`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
@@ -149,7 +149,7 @@
   ```
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
-  * In ArgoCD UI go to: Applications > New App 
+  * In ArgoCD UI go to: **Applications > New App**
    * **Application Name:** `movr-flask-app`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
@@ -179,7 +179,7 @@
   ```
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
-  * In ArgoCD UI go to: Applications > New App 
+  * In ArgoCD UI go to: **Applications > New App** 
    * **Application Name:** `faztpay-java-app`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
