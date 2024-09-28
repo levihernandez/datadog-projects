@@ -64,7 +64,10 @@
    * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
    * **Namespace:** `datadog`
    * **Helm > VALUE FILES:** `values.yaml`
-   * copy the contents of this file https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/crdb/helm/datadog-values.yaml
+   * copy the contents of this file
+   ```bash
+   https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/crdb/helm/datadog-values.yaml
+   ```
    * paste the contens in **VALUES**
    * Click **CREATE** button to deploy Datadog in your cluster
 
@@ -157,7 +160,10 @@
    * **DESTINATION > Cluster URL:** `https://kubernetes.default.svc`
    * **Namespace:** `datadog`
    * **Helm > VALUE FILES:** `values.yaml`
-   * copy the contents of this file https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/apps/helm/datadog-values.yaml
+   * copy the contents of this file 
+   ```bash
+   https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/datadog/k8s/crdb/helm/datadog-values.yaml
+   ```
    * paste the contens in **VALUES**
    * Click **CREATE** button to deploy Datadog in your cluster
 
