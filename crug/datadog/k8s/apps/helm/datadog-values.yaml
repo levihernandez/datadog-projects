@@ -28,17 +28,17 @@ datadog:
       enabled: true
     iast:
       enabled: true
-    usm:
-      enabled: true
-    npm:
-      enabled: true
-    remoteConfiguration:
-      enabled: true
-    admissionController:
-      enabled: true
-    liveProcessCollection:
-      enabled: true
-    liveContainerCollection:
-      enabled: true
-    clusterChecks:
-      enabled: true
+  usm:
+    enabled: true
+  npm:
+    enabled: true
+  remoteConfiguration:
+    enabled: true
+  admissionController:
+    enabled: true
+  liveProcessCollection:
+    enabled: true
+  liveContainerCollection:
+    enabled: true
+  clusterChecks:
+    enabled: true
