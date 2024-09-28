@@ -87,7 +87,7 @@
 ## Application Deployment: MovR app & Datadog with ArgoCD
 
 * MovR App K8s cluster:
-  * Create namespaces: movr, datadog, argocd
+  * Create namespaces:  datadog, argocd, movr, faztpay
   ```bash
   kubectl apply -f https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/create-app-namespaces.yaml
   ```
@@ -135,6 +135,18 @@
 
   #### Deploy the MovR App with ArgoCD
   
+  * Create secrets to connect to the database
+  ```bash
+  # Download MovR app secrets YAML and configure the DB connection
+  curl -L -o movr-app-secret.yaml https://github.com/levihernandez/datadog-projects/raw/refs/heads/main/crug/applications/MovR/app-secret.yaml
+
+  # Encode the API key
+  echo -n "postgres://root:''@192.168.86.237:26257/movr?sslmode=disable" | base64
+
+  # replace the   DB_URI: <db url base64 encoding> with the encoded key
+  # apply the secret key for Datadog
+  kubectl apply -f movr-app-secret.yaml -n movr
+  ```
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
@@ -148,8 +160,23 @@
    * **Namespace:** `movr`
    * Click **CREATE** button to deploy MovR Flask app in your cluster
    * 
-  #### Deploy the Payments App with ArgoCD
+  #### Deploy the FaztPay App with ArgoCD
+  * Create secrets to connect to the database
+  ```bash
+  # Download FaztPay app secrets YAML and configure the DB connection
+  curl -L -o faztpay-app-secret.yaml https://github.com/levihernandez/datadog-projects/raw/refs/heads/main/crug/applications/FaztPay/app-secret.yaml
 
+  # Encode the SPRING_DATASOURCE_URL connection
+  echo "postgresql://root@192.168.86.237:26257/faztpay?application_name=payment-api&connect_timeout=15&sslmode=disable" | base64
+  # Encode the SPRING_DATASOURCE_USERNAME
+  echo "username" | base64
+  # Encode the SPRING_DATASOURCE_PASSWORD
+  echo "password" | base64
+
+  # replace the   SPRING_DATASOURCE_URL: <db url base64 encoding>, SPRING_DATASOURCE_USERNAME: <base64 encoded db username>, SPRING_DATASOURCE_PASSWORD: <base64 encoded db password> with the encoded key
+  # apply the secret key for Datadog
+  kubectl apply -f faztpay-app-secret.yaml -n faztpay
+  ```
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
@@ -160,5 +187,5 @@
    * **Revision:** `HEAD`
    * **Path:** `crug/applications/FaztPay/k8s`
    * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
-   * **Namespace:** `movr`
+   * **Namespace:** `faztpay`
    * Click **CREATE** button to deploy Payments Java app in your cluster
