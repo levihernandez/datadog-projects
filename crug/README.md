@@ -138,12 +138,12 @@
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
-   * **Application Name:** `movr-cluster`
+   * **Application Name:** `movr-flask-app`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
    * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
    * **Revision:** `HEAD`
-   * **Path:** `crug/movr/k8s`
+   * **Path:** `crug/applications/MovR/k8s`
    * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
    * **Namespace:** `movr`
    * Click **CREATE** button to deploy MovR Flask app in your cluster
@@ -153,12 +153,12 @@
   * Update the secrets yaml to update the database credentials & url 
   * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
-   * **Application Name:** `movr-cluster`
+   * **Application Name:** `faztpay-java-app`
    * **Project Name:** `default`
    * **SYNC POLICY:** `Automatic`
    * **SOURCE > Repository URL:** `https://github.com/levihernandez/datadog-projects.git`
    * **Revision:** `HEAD`
-   * **Path:** `crug/payments/k8s`
+   * **Path:** `crug/applications/FaztPay/k8s`
    * **DESTINATION** > Cluster URL: `https://kubernetes.default.svc`
    * **Namespace:** `movr`
    * Click **CREATE** button to deploy Payments Java app in your cluster
