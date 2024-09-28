@@ -8,7 +8,7 @@ For the current example, there are two separate K8s clusters.
   ```bash
   kubectl apply -f https://raw.githubusercontent.com/levihernandez/datadog-projects/refs/heads/main/crug/create-namespaces.yaml
   ```
-  * Install ArgoCD
+  ### Install ArgoCD
   ```bash
   # Install ArgoCD via Manifest
   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -22,7 +22,10 @@ For the current example, there are two separate K8s clusters.
   # Once installed, get the ArgoCD password with:
   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
   ```
-  * Access the ArgoCD url https://<domain>/ & use the password obtained from Kubernetes namespace `argocd`
+  ### Install the Datadog Agent
+
+  ### Install CockroachDB
+  * Access the ArgoCD url `https://domain/` & use the password obtained from Kubernetes namespace `argocd`
   * In ArgoCD UI go to: Applications > New App 
    * Application Name: `cockroachdb-cluster`
    * Project Name: `default`
@@ -33,6 +36,7 @@ For the current example, there are two separate K8s clusters.
    * DESTINATION > Cluster URL: `https://kubernetes.default.svc`
    * Namespace: `cockroachdb`
    * Click CREATE button to deploy CockroachDB in your cluster
+
 
 
 
