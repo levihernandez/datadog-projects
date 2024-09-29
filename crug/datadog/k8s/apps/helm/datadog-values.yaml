@@ -14,21 +14,17 @@ datadog:
     instrumentation:
       enabled: true
       libVersions:
-        java: "1"
-        dotnet: "3"
         python: "2"
-        js: "5"
-        ruby: "2"
   logs:
     enabled: true
     containerCollectAll: true
-  asm:
-    threats:
-      enabled: true
-    sca:
-      enabled: true
-    iast:
-      enabled: true
+  # asm:
+  #   threats:
+  #     enabled: true
+  #   sca:
+  #     enabled: true
+  #   iast:
+  #     enabled: true
   serviceMonitoring: # usm
     enabled: true
   networkMonitoring: # npm
@@ -37,9 +33,12 @@ datadog:
     enabled: true
   admissionController:
     enabled: true
-  liveProcessCollection:
-    enabled: true
-  liveContainerCollection:
-    enabled: true
+  processAgent:
+    processCollection: true
+    containerCollection: true
+  # liveProcessCollection:
+  #   enabled: true
+  # liveContainerCollection:
+  #   enabled: true
   clusterChecks:
     enabled: true
