@@ -18,7 +18,9 @@ spec:
       containers:
       - name: movr-app
         image: levihernandez/movr-sr-amd64:v24.2.0 # or test with cockroachdb/movr:latest
-        command: ["python", "server.py", "run", "--max-records", "50"]
+        command: ["python", "server.py", "run", "--max-records", "50", "--url"]
+        args:
+        - "$(DB_URI)"  # This uses the environment variable
         envFrom:
         - configMapRef:
             name: movr-app-config
