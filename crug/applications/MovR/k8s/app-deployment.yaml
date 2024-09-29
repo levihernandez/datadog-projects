@@ -21,12 +21,13 @@ spec:
         command: ["python", "server.py", "run", "--max-records", "50", "--url"]
         args:
         - "$(DB_URI)"  # This uses the environment variable
-        envFrom:
+        env:
         - name: DB_URI
           valueFrom:
             secretKeyRef:
               name: movr-app-secrets
               key: DB_URI
+        envFrom:
         - configMapRef:
             name: movr-app-config
         - secretRef:
