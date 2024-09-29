@@ -19,7 +19,7 @@
   kubectl get svc -n argocd
   
   # Once installed, get the ArgoCD password with:
-  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d ; echo ""
   ```
   ### Install the Datadog Agent
   While we can directly install the Datadog Agent via `kubectl`, for the purpose of visualization, we will install it with ArgoCD.
@@ -111,7 +111,7 @@
   kubectl get svc -n argocd
   
   # Once installed, get the ArgoCD password with:
-  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo ""
   ```
   
 
