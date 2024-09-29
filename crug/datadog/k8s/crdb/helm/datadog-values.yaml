@@ -13,9 +13,9 @@ datadog:
   logs:
     enabled: true
     containerCollectAll: true
-  usm:
+  serviceMonitoring: # usm
     enabled: true
-  npm:
+  networkMonitoring: # npm
     enabled: true
   remoteConfiguration:
     enabled: true
