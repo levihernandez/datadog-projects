@@ -20,17 +20,24 @@ spec:
         image: levihernandez/movr-sr-amd64:v24.2.0 # or test with cockroachdb/movr:latest
         command: ["python", "server.py", "run", "--max-records", "50", "--url"]
         args:
-        - "$(DB_URI)"  # This uses the environment variable
+        - "$(DB_URI)"  # Using the DB_URI from the environment variable
         env:
         - name: DB_URI
           valueFrom:
             secretKeyRef:
               name: movr-app-secrets
               key: DB_URI
+        - name: PGSSLROOTCERT
+          value: "/etc/ssl/certs/root.crt"  # Path to the certificate
         envFrom:
         - configMapRef:
             name: movr-app-config
-        - secretRef:
-            name: movr-app-secrets
         ports:
         - containerPort: 5000
+        volumeMounts:
+        - name: db-cert-volume
+          mountPath: /etc/ssl/certs  # Mount path for the certificate
+      volumes:
+      - name: db-cert-volume
+        secret:
+          secretName: db-cert-secret  # The secret containing the certificate
