@@ -29,9 +29,9 @@ datadog:
       enabled: true
     iast:
       enabled: true
-  usm:
+  serviceMonitoring: # usm
     enabled: true
-  npm:
+  networkMonitoring: # npm
     enabled: true
   remoteConfiguration:
     enabled: true
