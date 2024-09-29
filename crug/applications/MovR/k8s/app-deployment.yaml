@@ -22,6 +22,11 @@ spec:
         args:
         - "$(DB_URI)"  # This uses the environment variable
         envFrom:
+        - name: DB_URI
+          valueFrom:
+            secretKeyRef:
+              name: movr-app-secrets
+              key: DB_URI
         - configMapRef:
             name: movr-app-config
         - secretRef:
