@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: movr-app-config
+data:
+  FLASK_ENV: production
+  MAX_RECORDS: "50"
+  SECRET_KEY: 96c696b11f64564df733df3fc1a30be50c1b671f90e11a9096d10523335f6bc6
+  DEBUG: 'True'
+  API_KEY: 'API_key'
+  REGION: 'gcp-us-central1'
+  PORT: '8000'
+  PROJECT: 'argocd-deployment'
+  # Add other env variables from .env here
