@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movr-app
+  labels:
+    app: movr-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: movr-app
+  template:
+    metadata:
+      labels:
+        app: movr-app
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: movr-app
+        image: levihernandez/movr-sr-amd64:v24.2.0 # or test with cockroachdb/movr:latest
+        command: ["python", "server.py", "run", "--max-records", "50", "--url"]
+        args:
+        - "$(DB_URI)"  # Using the DB_URI from the environment variable
+        env:
+        - name: DB_URI
+          valueFrom:
+            secretKeyRef:
+              name: movr-app-secrets
+              key: DB_URI
+        envFrom:
+        - configMapRef:
+            name: movr-app-config
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+       
