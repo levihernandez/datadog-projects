@@ -32,5 +32,5 @@ spec:
             name: movr-app-config
         ports:
         - containerPort: 5000
-        volumeMounts:
+
        
