@@ -9,5 +9,5 @@ spec:
   ports:
     - name: web
       protocol: TCP
-      port: 8085    # External port
+      port: 443    # External port
       targetPort: 5000  # Internal port in the container
