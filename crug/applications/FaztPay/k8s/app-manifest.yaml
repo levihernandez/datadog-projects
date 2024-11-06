@@ -36,10 +36,7 @@ spec:
                   name: faztpay-api-secret
                   key: SPRING_DATASOURCE_PASSWORD
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: faztpay-api-secret
-                  key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "org.postgresql.Driver"
 
 ---
 apiVersion: v1
