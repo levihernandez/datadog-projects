@@ -201,7 +201,7 @@
   curl -L -o faztpay-app-secret.yaml https://github.com/levihernandez/datadog-projects/raw/refs/heads/main/crug/applications/FaztPay/app-secret.yaml
 
   # Encode the SPRING_DATASOURCE_URL connection
-  echo "postgresql://root@192.168.86.237:26257/faztpay?application_name=payment-api&connect_timeout=15&sslmode=disable" | base64
+  echo -n "jdbc:postgresql://root@192.168.86.237:26257/faztpay?application_name=payment-api&connect_timeout=15&sslmode=disable" | base64
   # Encode the SPRING_DATASOURCE_USERNAME
   echo "username" | base64
   # Encode the SPRING_DATASOURCE_PASSWORD
