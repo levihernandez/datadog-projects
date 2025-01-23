@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .  # Use the current directory for the build context
+      dockerfile: Dockerfile-amd64
+    container_name: paymentprocessing_container
+    environment:
+      - CORECLR_ENABLE_PROFILING=1
+      - CORECLR_PROFILER={846F5F1C-F9AE-4B07-969E-05C26BC060D8}
+      - CORECLR_PROFILER_PATH=/opt/datadog/Datadog.Trace.ClrProfiler.Native.so
+      - DD_DOTNET_TRACER_HOME=/opt/datadog
+      - DD_LOGS_INJECTION=true
+      - DD_RUNTIME_METRICS_ENABLED=true
+      #- DATABASE_URL=${DATABASE_URL}  # Pass DATABASE_URL from the environment as export DATABASE_URL="postgres://root@192.168.86.235:26257/bank?sslmode=disable"
+      # Datadog Agent configuration
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_ENV=development
+      - DD_SERVICE=csharp-crdb
+      - DD_VERSION=1.0.0
+      - DD_TRACE_DEBUG=true
+      # - DD_AGENT_HOST=192.168.86.66  # Use this for local development; it resolves to the host machine, default host.docker.internal
+      - DD_AGENT_HOST=host.docker.internal
+      - DD_TRACE_AGENT_PORT=8136  # Default port for the Datadog Trace Agent
+      - DD_TRACE_PROPAGATION_STYLE=datadog
+      - DD_INTEGRATION_ADONET_ENABLED=true
+      # - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_URLS=http://+:5179  # Allow both HTTP and HTTPS in production
+    ports:
+      - "8080:8080"
+
+# export DATABASE_URL="Host=192.168.86.235;Port=26257;Username=root;Password=;Database=banking;SslMode=Disable"

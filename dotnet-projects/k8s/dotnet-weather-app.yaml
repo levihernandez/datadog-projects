@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-weather-deployment
+  labels:
+    app: dotnet-weather
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dotnet-weather
+  template:
+    metadata:
+      labels:
+        app: dotnet-weather
+      # annotations:
+      #   # DataDog profiler annotations
+      #   ad.datadoghq.com/dotnet-profiler.enabled: "true"
+      #   ad.datadoghq.com/dotnet-profiler.logs: "true"
+      #   ad.datadoghq.com/dotnet-profiler.tags: "app:dotnet-weather"
+    spec:
+      containers:
+        - name: dotnet-weather
+          image: levihernandez/dotnet-weather:0.0.1
+          ports:
+            - containerPort: 80
+          env:
+            - name: DD_AGENT_HOST
+              value: "datadog-agent"  # Ensure Datadog agent is running in your cluster
+          #   - name: DD_ENV
+          #     value: "development"  # Set your environment (production, staging, etc.)
+            - name: DD_SERVICE
+              value: "dotnet-weather"
+            - name: DD_VERSION
+              value: "1.0.2"  # Specify the version if needed
+          #   - name: ASPNETCORE_ENVIRONMENT
+          #     value: "Production"  # Adjust according to your app's environment
+          #   - name: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
+          #     value: "true"  # Optional, depending on your app's needs
+            - name: DD_PROFILING_ENABLED
+              value: "true"
+            - name: LD_PRELOAD
+              value: "/opt/datadog/linux-x64/Datadog.Linux.ApiWrapper.x64.so"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"

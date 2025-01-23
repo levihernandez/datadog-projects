@@ -1,0 +1,72 @@
+# Use the official .NET SDK 8.0 image as the base image for building
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the project file and restore any dependencies
+COPY PaymentProcessing/*.csproj ./
+RUN dotnet restore
+
+# Copy the rest of the application code
+COPY PaymentProcessing/ ./
+
+# Build the application
+# RUN dotnet build -c Release -o out
+
+# Build and publish a release
+RUN dotnet publish -c Release -o out
+
+# Use a lightweight .NET runtime image for the final stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the built application from the build stage
+COPY --from=build /app/out ./
+
+# Copy the Datadog tracer native library into the container
+# Replace the following line with the actual path to your Datadog tracer library
+# Copy the local tracer library
+# COPY Datadog.Trace.ClrProfiler.Native.so /opt/datadog/Datadog.Trace.ClrProfiler.Native.so
+
+# For test purposes, install curl, and download the dotnet tracer Datadog library
+# -----
+# Install curl and tar for downloading and extracting files
+RUN apt-get update && apt-get install -y curl tar
+
+# Install .NET Datadog Tracer
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    ca-certificates && \
+    # Download the datadog-dotnet-apm package using curl
+    curl -L -o /tmp/datadog-dotnet-apm_amd64.deb https://github.com/DataDog/dd-trace-dotnet/releases/download/v3.9.0/datadog-dotnet-apm_3.9.0_amd64.deb && \
+    # Install the .deb package
+    dpkg -i /tmp/datadog-dotnet-apm_amd64.deb || apt-get install -f -y && \
+    # Clean up
+    rm /tmp/datadog-dotnet-apm_amd64.deb
+
+
+# Set environment variables for Datadog profiling and tracing
+ENV CORECLR_ENABLE_PROFILING=1
+ENV CORECLR_PROFILER={846F5F1C-F9AE-4B07-969E-05C26BC060D8}
+ENV CORECLR_PROFILER_PATH=/opt/datadog/Datadog.Trace.ClrProfiler.Native.so
+ENV DD_DOTNET_TRACER_HOME=/opt/datadog
+ENV LD_PRELOAD=/opt/datadog/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so
+ENV DD_PROFILING_ENABLED=1
+
+# Set additional Datadog environment variables
+ENV DD_DBM_PROPAGATION_MODE=full
+ENV DD_LOGS_INJECTION=true
+ENV DD_RUNTIME_METRICS_ENABLED=true
+ENV DD_APPSEC_ENABLED=true
+ENV DD_IAST_ENABLED=true
+ENV DD_APPSEC_SCA_ENABLED=true
+
+# Expose the required ports
+EXPOSE 8080
+
+# Start your application
+CMD ["dotnet", "PaymentProcessing.dll"]
