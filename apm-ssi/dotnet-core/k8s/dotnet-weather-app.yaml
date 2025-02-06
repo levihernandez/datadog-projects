@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dotnet-weather
-          image: levihernandez/dotnet-weather:0.0.1
+          image: levihernandez/dotnet-weather:0.0.1 # 0.0.1 fully instrumented per DD .NET docs; 0.0.4 no instrumentation
           ports:
             - containerPort: 8080
           env:
