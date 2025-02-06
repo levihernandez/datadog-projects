@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-weather-deployment
+  labels:
+    app: dotnet-weather
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dotnet-weather
+  template:
+    metadata:
+      labels:
+        app: dotnet-weather
+    spec:
+      containers:
+        - name: dotnet-weather
+          image: levihernandez/dotnet-weather:0.0.1
+          ports:
+            - containerPort: 8080
+          env:
+            # - name: CORECLR_ENABLE_PROFILING
+            #   value: "1"
+            # - name: CORECLR_PROFILER
+            #   value: "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}"
+            # - name: CORECLR_PROFILER_PATH
+            #   value: "/opt/datadog/Datadog.Trace.ClrProfiler.Native.so"
+            # - name: ASPNETCORE_HTTP_PORTS
+            #   value: "8080"
+            - name: DD_PROFILING_ENABLED
+              value: "true"
+            - name: LD_PRELOAD
+              value: "/opt/datadog/apm/library/dotnet/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so"
+            
+            # - name: DD_DOTNET_TRACER_HOME
+            #   value: "/datadog/tracer"
+            # - name: DD_PROFILING_ALLOCATION_ENABLED
+            #   value: "true"
+            # - name: DD_PROFILING_HEAP_ENABLED
+            #   value: "true"
+            # - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
+            #   value: "true"
+            # - name: DD_SYMBOL_DATABASE_UPLOAD_ENABLED
+            #   value: "true"
+            # - name: DD_ENV
+            #   value: "dev"
+            - name: DD_SERVICE
+              value: "weather-forecast"
+            - name: DD_VERSION
+              value: "0.0.11"
+            # - name: DD_TRACE_DEBUG
+            #   value: "true"
+            # - name: DD_AGENT_HOST
+            #   value: "datadog-agent"  # Ensure Datadog agent is running in your cluster
+            # - name: DD_AGENT_HOST
+            #   valueFrom:
+            #     fieldRef:
+            #       apiVersion: v1
+            #       fieldPath: status.hostIP
+            # - name: DD_DBM_PROPAGATION_MODE
+            #   value: "true"
+            # - name: DD_LOGS_INJECTION
+            #   value: "true"
+            - name: DD_RUNTIME_METRICS
+              value: "true"
+            - name: DD_TRACE_AGENT_URL
+              value: "unix:///var/run/datadog/apm.socket"
+            
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
