@@ -10,6 +10,11 @@ instances:
     dbname: database1
     min_collection_interval: 60  # Collection interval in seconds
     timezone: UTC  # Explicitly set timezone for time-based queries
+    ssl: allow  # Options: disable, allow, prefer, require, verify-ca, verify-full
+    ssl_root_cert: <SSL_ROOT_CERT>  # Path to the ssl root certificate
+    ssl_cert: <SSL_CERT>  # Path to the ssl certificate
+    ssl_key: <SSL_KEY>  # Path to the ssl client key
+    ssl_password: <SSL_PASSWORD>  # Password for the ssl key if encrypted
     tags:
       - environment:production
       - service:postgres-main
@@ -19,13 +24,12 @@ instances:
           SELECT count(*) as active_connections
           FROM pg_stat_activity
           WHERE state = 'active'
-          AND current_timestamp - state_change >= interval '5 minutes'
+          AND current_timestamp AT TIME ZONE 'America/New_York' >= NOW() - interval '5 minutes'          
         metric_name: active_connections_last_5min
         type: gauge
         tags:
           - metric_type:performance
           - query:active_connections
-          - time_window:5min
 
       # Example query to monitor transaction rate with explicit time handling
       - query: |
@@ -41,13 +45,12 @@ instances:
               WHEN time_period > 0 THEN total_transactions / time_period
               ELSE 0
             END as transactions_per_second
-          FROM rates
+          FROM rates          
         metric_name: transaction_rate
         type: gauge
         tags:
           - metric_type:throughput
           - query:transaction_rate
-          - measurement:per_second
 
   # Second database instance example
   - host: db2.example.com
@@ -66,10 +69,9 @@ instances:
           SELECT count(*) as slow_queries
           FROM pg_stat_activity
           WHERE state = 'active'
-          AND current_timestamp - query_start > interval '30 seconds'
+          AND current_timestamp - query_start > interval '30 seconds'          
         metric_name: slow_queries_count
         type: gauge
         tags:
           - metric_type:performance
-          - query:slow_queries
           - threshold:30sec
