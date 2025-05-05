@@ -126,16 +126,38 @@ class PostgresQueryCheck(AgentCheck):
 
     @contextmanager
     def get_connection(self, host: str, port: int, user: str, password: str, dbname: str):
-        """Create a new database connection with proper error handling."""
+        """Create a new database connection with proper error handling and SSL support."""
         conn = None
         try:
-            conn = psycopg2.connect(
-                host=host,
-                port=port,
-                user=user,
-                password=password,
-                dbname=dbname
-            )
+            # Extract SSL configuration
+            ssl_mode = self.instance.get('ssl', 'allow')
+            ssl_root_cert = self.instance.get('ssl_root_cert')
+            ssl_cert = self.instance.get('ssl_cert')
+            ssl_key = self.instance.get('ssl_key')
+            ssl_password = self.instance.get('ssl_password')
+
+            # Build connection parameters
+            conn_params = {
+                'host': host,
+                'port': port,
+                'user': user,
+                'password': password,
+                'dbname': dbname,
+                'sslmode': ssl_mode
+            }
+
+            # Add SSL parameters if configured
+            if ssl_root_cert:
+                conn_params['sslrootcert'] = ssl_root_cert
+            if ssl_cert:
+                conn_params['sslcert'] = ssl_cert
+            if ssl_key:
+                conn_params['sslkey'] = ssl_key
+            if ssl_password:
+                conn_params['sslpassword'] = ssl_password
+
+            self.log.debug(f"Connecting with SSL mode: {ssl_mode}")
+            conn = psycopg2.connect(**conn_params)
             yield conn
         except Exception as e:
             if conn:
